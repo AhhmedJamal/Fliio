@@ -1,0 +1,10 @@
+{
+  "HomePage": {
+    "title": "Welcome to Fliio",
+    "description": "Discover stylish, high-quality headphones."
+  },
+  "Button": {
+    "buyNow": "Buy Now",
+    "addToCart": "Add to Cart"
+  }
+}
