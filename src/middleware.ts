@@ -1,11 +1,11 @@
 import createMiddleware from "next-intl/middleware";
-import { locales } from "./config";
+import { routing } from "./i18n/routing";
 
 export default createMiddleware({
-  locales,
-  defaultLocale: "en",
+  locales: routing.locales,
+  defaultLocale: routing.defaultLocale,
 });
 
 export const config = {
-  matcher: ["/", "/(ar|en)/:path*"],
+  matcher: ["/", "/(en|ar)/:path*"],
 };
