@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
 import "../globals.css";
+import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import ClientWrapper from "@/components/layout/ClientWrapper";
-// لا تستورد useToggleMode هنا!
+import Header from "@/components/layout/Header";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -20,30 +20,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const messages = await getMessages();
-
- 
-  const setThemeScript = `
-    try {
-      const isDark = localStorage.getItem('theme') === 'dark';
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    } catch (e) {}
-  `;
-
   return (
     <html lang="en">
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: setThemeScript }} />
-      </head>
       <body
-        className={`${archivo.className} antialiased`}
         cz-shortcut-listen="true"
+        className={`${archivo.className} antialiased`}
       >
-        {/* ClientWrapper هو اللي يستدعي useToggleMode */}
-        <ClientWrapper messages={messages}>{children}</ClientWrapper>
+        <NextIntlClientProvider messages={messages}>
+          <Header />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
