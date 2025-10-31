@@ -1,0 +1,27 @@
+{
+  "SlideTop": {
+    "text": "Erhalten Sie {dis}% Rabatt mit dem Code: {code}",
+    "message": "Fügen Sie den Code beim Checkout ein, um {dis}% Rabatt zu erhalten 🎉",
+    "code": "Code kopiert: {code}"
+  },
+  "Header": {
+    "inputSearch": "Wonach suchen Sie?",
+    "shopByCategory": "Nach Kategorie einkaufen",
+    "pages": "Seiten",
+    "bestSellers": "Bestseller",
+    "newArrivals": "Neuankömmlinge",
+    "homeAppliances": "Haushaltsgeräte",
+    "audioGames": "Audio & Spiele"
+  },
+  "HomePage": {
+    "title": "Willkommen bei Fliio",
+    "description": "Entdecken Sie stilvolle und hochwertige Kopfhörer."
+  },
+  "Button": {
+    "buyNow": "Jetzt kaufen",
+    "addToCart": "In den Warenkorb"
+  },
+  "HeroSection": {
+    "welcomeMessage": "Entdecken Sie unsere besten Kopfhörer"
+  }
+}

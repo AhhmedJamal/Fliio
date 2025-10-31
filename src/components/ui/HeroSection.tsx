@@ -1,9 +1,8 @@
-import React from 'react'
+import { useTranslations } from "next-intl";
 
 const HeroSection = () => {
-  return (
-    <div>HeroSection</div>
-  )
-}
+  const t = useTranslations("HeroSection");
+  return <div className="p-10 text-center">{t("welcomeMessage")}</div>;
+};
 
-export default HeroSection
+export default HeroSection;

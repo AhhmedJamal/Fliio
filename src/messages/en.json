@@ -1,4 +1,18 @@
 {
+  "SlideTop": {
+    "text": "Get {dis}% discount when using the code: {code}",
+    "message": "Paste the code at checkout to get {dis}% discount 🎉",
+    "code": "Code copied: {code}"
+  },
+  "Header": {
+    "inputSearch": "What are you looking for?",
+    "shopByCategory": "Shop by Category",
+    "pages": "Pages",
+    "bestSellers": "Best Sellers",
+    "newArrivals": "New Arrivals",
+    "homeAppliances": " Home Appliances",
+    "audioGames": "Audio & Games"
+  },
   "HomePage": {
     "title": "Welcome to Fliio",
     "description": "Discover stylish, high-quality headphones."
@@ -6,5 +20,8 @@
   "Button": {
     "buyNow": "Buy Now",
     "addToCart": "Add to Cart"
+  },
+  "HeroSection": {
+    "welcomeMessage": "Explore Our Best Headphones"
   }
 }

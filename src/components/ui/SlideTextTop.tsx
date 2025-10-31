@@ -1,67 +1,86 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useMotionValue, useAnimationFrame } from "framer-motion";
 import { toast, Toaster } from "sonner";
+import { useLocale, useTranslations } from "next-intl";
 
-const SlideTextTop: React.FC = () => {
-  const codeDis: string = "Fliio40";
-  const message: string = `Get a discount 40% when using Code: ${codeDis}`;
+interface SlideTextTopProps {
+  discount?: number;
+  code?: string;
+}
+const SlideTextTop: React.FC<SlideTextTopProps> = ({
+  discount = 40,
+  code = `Fliio${discount}`,
+}) => {
+  const t = useTranslations("SlideTop");
+  const textSlide = `${t("text", { dis: discount, code })}`;
+  const locale = useLocale();
 
   const x = useMotionValue(0);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const speed: number = 50;
-  const pauseRef = useRef<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [lang, setLang] = useState<"en" | "ar">("en");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const speed = 50;
+  const pauseRef = useRef(false);
 
-  const handlePause = (v: boolean): void => {
+  const isRTL = locale === "ar";
+
+  const handlePause = (v: boolean) => {
     pauseRef.current = v;
   };
 
   const getContentHalfWidth = () =>
     containerRef.current ? containerRef.current.scrollWidth / 2 : 0;
 
-  const animateLeft = (delta: number, width: number) => {
-    const next = x.get() - (speed * delta) / 1000;
-    x.set(next <= -width / 2 ? 0 : next);
+  const animate = (delta: number, width: number) => {
+    const direction = isRTL ? 1 : -1;
+    const next = x.get() + direction * ((speed * delta) / 1000);
+    if (isRTL) {
+      x.set(next >= width / 2 ? 0 : next);
+    } else {
+      x.set(next <= -width / 2 ? 0 : next);
+    }
   };
 
   useAnimationFrame((_, delta) => {
     if (pauseRef.current || !containerRef.current) return;
     const width = getContentHalfWidth();
     if (!width) return;
-
-    animateLeft(delta, width);
+    animate(delta, width);
   });
 
-  const notify = (): void => {
-    navigator.clipboard.writeText(codeDis);
-    toast.success(`Code copied: ${codeDis}`, {
-      description: "Paste it at checkout to get your 40% discount 🎉",
+  // Notify function to copy code and show toast
+  const notify = () => {
+    navigator.clipboard.writeText(code);
+    toast.success(`${t("code", { code })}`, {
+      description: t("message", { dis: discount }),
     });
   };
 
   return (
-    <div
-      className="top-nav bg-black text-white py-2 overflow-hidden whitespace-nowrap"
-      onMouseEnter={() => handlePause(true)}
-      onMouseLeave={() => handlePause(false)}
-      ref={containerRef}
-    >
-      <Toaster position="top-center" />
-      <motion.div
-        className="inline-flex cursor-pointer"
-        style={{ x }}
+    <>
+      <Toaster />
+      <div
+        className="overflow-hidden bg-black text-white py-2 cursor-pointer select-none"
+        onMouseEnter={() => handlePause(true)}
+        onMouseLeave={() => handlePause(false)}
         onClick={notify}
-        dir={lang === "ar" ? "rtl" : "ltr"}
+        ref={containerRef}
+        dir={isRTL ? "rtl" : "ltr"}
       >
-        {Array.from({ length: 20 }).map((_, idx) => (
-          <span key={idx} className="px-4">
-            {message}
-          </span>
-        ))}
-      </motion.div>
-    </div>
+        <motion.div
+          className="whitespace-nowrap flex gap-10"
+          style={{ x }}
+          animate={{
+            x: isRTL ? [0, getContentHalfWidth()] : [0, -getContentHalfWidth()],
+          }}
+          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+        >
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <span key={idx}>{textSlide}</span>
+          ))}
+        </motion.div>
+      </div>
+    </>
   );
 };
+
 export default SlideTextTop;
