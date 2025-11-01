@@ -1,10 +1,4 @@
 "use client";
-import { RiShoppingCartLine } from "react-icons/ri";
-import { FiSearch } from "react-icons/fi";
-import { Audiowide } from "next/font/google";
-import { FaRegUser } from "react-icons/fa";
-import SlideTextTop from "../ui/SlideTextTop";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -13,10 +7,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RiShoppingCartLine } from "react-icons/ri";
+import { FiSearch } from "react-icons/fi";
+import { Audiowide } from "next/font/google";
+import { FaRegUser } from "react-icons/fa";
+import SlideTextTop from "../ui/SlideTextTop";
+import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import { IoIosArrowDown } from "react-icons/io";
-import ModalHeader from "../shared/ModalHeader";
+import NavMenu from "../shared/NavMenu";
 
 const audiowide = Audiowide({
   weight: "400",
@@ -30,14 +29,7 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale();
-  const navLinks = [
-    { label: t("shopByCategory") },
-    { label: t("pages") },
-    { label: t("bestSellers") },
-    { label: t("newArrivals") },
-    { label: t("homeAppliances") },
-    { label: t("audioGames") },
-  ];
+
   const handleLanguageChange = (newLocale: string) => {
     const segments = pathname.split("/").filter(Boolean);
 
@@ -61,7 +53,7 @@ const Header = () => {
       <SlideTextTop />
       <header
         dir="ltr"
-        className="header  p-4 shadow-md dark:bg-gray-800  bg-(--text) text-background "
+        className="header relative p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background "
       >
         <div className="container flex justify-between items-center mx-auto">
           <div className="logo">
@@ -115,20 +107,7 @@ const Header = () => {
             </Select>
           </div>
         </div>
-        <nav className="container mx-auto mt-4">
-          <ul className="flex gap-x-2 justify-between flex-wrap ">
-            {navLinks.map((link) => (
-              <li
-                key={link.label}
-                className="flex items-center gap-1 group hover:cursor-pointer duration-200 relative before:content-[''] before:absolute before:-bottom-1 before:left-0 before:w-0 before:h-0.5 before:bg-neutral-400 transition-all hover:text-neutral-300 hover:before:w-full before:transition-all before:duration-300"
-              >
-                {link.label}{" "}
-                <IoIosArrowDown className="group-hover:-rotate-90 transition-all duration-300" />
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <ModalHeader />
+        <NavMenu />
       </header>
     </>
   );
