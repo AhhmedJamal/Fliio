@@ -39,12 +39,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1a1a1a;
-    --text: #f6f6f6;
-  }
-} */
+
 body {
   background-color: #f6f6f6;
   color: #1a1a1a;
@@ -52,13 +47,15 @@ body {
   font-weight: 600;
   overflow-x: hidden;
 }
-
+body.menu-open {
+  background-color: rgba(0, 0, 0, 0.5); /* تأثير overlay */
+  transition: background-color 0.3s ease;
+}
 header {
   .lucide-chevron-down {
     stroke: white;
   }
 }
-
 a {
   text-decoration: none;
 }
