@@ -12,6 +12,9 @@ const archivo = Archivo({
 export const metadata: Metadata = {
   title: "Fliio",
   description: "Headphones & Accessories Store",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default async function RootLayout({
