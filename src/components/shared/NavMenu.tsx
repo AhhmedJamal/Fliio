@@ -1,7 +1,7 @@
 "use client";
-import { getNavCategory } from "@/lib/supabase/api/navCategory";
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDataTable } from "@/hooks/useDataTable";
 
 interface NavLink {
   id?: number;
@@ -12,17 +12,13 @@ const NavMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
 
+  const { data, loading, error } = useDataTable<NavLink>("nav_link");
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getNavCategory();
-        if (Array.isArray(data)) setNavLinks(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+    queueMicrotask(() => {
+      if (Array.isArray(data)) setNavLinks(data as NavLink[]);
+    });
+  }, [data]);
   useEffect(() => {
     if (isMenuOpen) document.body.classList.add("menu-open");
     else document.body.classList.remove("menu-open");
