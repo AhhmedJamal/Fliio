@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase/config";
+import { supabase } from "@/lib/config";
 
 type useDataError = string | null;
 
