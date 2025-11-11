@@ -25,7 +25,7 @@ const audiowide = Audiowide({
 const Header = () => {
   const t = useTranslations("Header");
   const [isValue, setIsValue] = useState<string>("");
-  const selectValue: string[] = ["en", "ar", "fr", "gr"];
+  const selectValue: string[] = ["en", "ar", "de"];
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale();
