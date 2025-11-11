@@ -19,7 +19,7 @@ const HeroSection: React.FC = () => {
           {item.mediaType === "video" ? (
             <video src={item.video} controls className="mx-auto rounded-2xl" />
           ) : (
-            <Image
+            <Image  
               width={500}
               height={500}
               src={item.image || "/fallback.jpg"}
