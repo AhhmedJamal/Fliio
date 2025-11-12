@@ -3,7 +3,7 @@ import { Archivo } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import Header from "@/components/layout/Header";
+import Header from "@/components/layout/Header/Header";
 
 const archivo = Archivo({
   subsets: ["latin"],

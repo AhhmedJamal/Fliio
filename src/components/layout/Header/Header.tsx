@@ -11,11 +11,11 @@ import { RiShoppingCartLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { Audiowide } from "next/font/google";
 import { FaRegUser } from "react-icons/fa";
-import SlideTextTop from "../ui/SlideTextTop";
+import SlideTextTop from "@/components/ui/SlideTextTop";
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import NavMenu from "../shared/NavMenu";
+import NavMenu from "./NavMenu";
 
 const audiowide = Audiowide({
   weight: "400",
@@ -53,7 +53,7 @@ const Header = () => {
       <SlideTextTop />
       <header
         dir="ltr"
-        className="header relative p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background "
+        className="header relative p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background z-20"
       >
         <div className="container flex justify-between items-center mx-auto">
           <div className="logo">
