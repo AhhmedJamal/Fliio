@@ -2,12 +2,11 @@
 
 import { useDataTable } from "@/hooks/useDataTable";
 import { HeroSectionType } from "@/types";
-import { useTranslations } from "next-intl";
+
 import Image from "next/image";
 
 const HeroSection: React.FC = () => {
   const { data, loading, error } = useDataTable<HeroSectionType>("HeroSection");
-  const t = useTranslations("HeroSection");
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {String(error)}</p>;

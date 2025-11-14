@@ -6,22 +6,18 @@
   },
   "Header": {
     "inputSearch": "Wonach suchen Sie?",
-    "shopByCategory": "Nach Kategorie einkaufen",
-    "pages": "Seiten",
-    "bestSellers": "Bestseller",
-    "newArrivals": "Neuankömmlinge",
-    "homeAppliances": "Haushaltsgeräte",
-    "audioGames": "Audio & Spiele"
-  },
-  "HomePage": {
-    "title": "Willkommen bei Fliio",
-    "description": "Entdecken Sie stilvolle und hochwertige Kopfhörer."
+    "Explore": {
+      "our_story": "Unsere Geschichte",
+      "our_journal": "Unser Journal",
+      "faqs": "Häufige Fragen",
+      "contact_us": "Kontakt",
+      "contact_with_map": "Kontakt mit Karte",
+      "store_locations": "Filialstandorte",
+      "build_your_bundle": "Stelle dein Bundle zusammen"
+    }
   },
   "Button": {
     "buyNow": "Jetzt kaufen",
     "addToCart": "In den Warenkorb"
-  },
-  "HeroSection": {
-    "welcomeMessage": "Entdecken Sie unsere besten Kopfhörer"
   }
 }

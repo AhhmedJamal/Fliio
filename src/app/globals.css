@@ -40,36 +40,6 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-body {
-  background-color: #f6f6f6;
-  color: #1a1a1a;
-  font-optical-sizing: auto;
-  font-weight: 600;
-  overflow-x: hidden;
-}
-body.menu-open {
-  background-color: rgba(0, 0, 0, 0.5); /* تأثير overlay */
-  transition: background-color 0.3s ease;
-}
-header {
-  .lucide-chevron-down {
-    stroke: white;
-  }
-}
-a {
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-button {
-  cursor: pointer;
-}
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -149,4 +119,70 @@ button:disabled {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  background-color: #f6f6f6;
+  color: #1a1a1a;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+body.menu-open {
+  background-color: rgba(0, 0, 0, 0.5); /* تأثير overlay */
+  transition: background-color 0.3s ease;
+}
+header {
+  .lucide-chevron-down {
+    stroke: white;
+  }
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* shimmer style */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+/* utility class optional */
+.shimmer-bar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    hsla(0, 0%, 100%, 0.475) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%);
+  animation: shimmer 1.2s infinite;
 }

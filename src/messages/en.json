@@ -6,22 +6,18 @@
   },
   "Header": {
     "inputSearch": "What are you looking for?",
-    "shopByCategory": "Shop by Category",
-    "pages": "Pages",
-    "bestSellers": "Best Sellers",
-    "newArrivals": "New Arrivals",
-    "homeAppliances": " Home Appliances",
-    "audioGames": "Audio & Games"
-  },
-  "HomePage": {
-    "title": "Welcome to Fliio",
-    "description": "Discover stylish, high-quality headphones."
+    "Explore": {
+      "our_story": "Our Story",
+      "our_journal": "Our Journal",
+      "faqs": "FAQ's",
+      "contact_us": "Contact Us",
+      "contact_with_map": "Contact with Map",
+      "store_locations": "Store locations",
+      "build_your_bundle": "Build Your Bundle"
+    }
   },
   "Button": {
     "buyNow": "Buy Now",
     "addToCart": "Add to Cart"
-  },
-  "HeroSection": {
-    "welcomeMessage": "Explore Our Best Headphones"
   }
 }

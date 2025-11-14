@@ -5,23 +5,19 @@
     "code": "تم نسخ الكود: {code}"
   },
   "Header": {
-    "inputSearch": "إنت بتدور على إيه بالظبط؟" ,
-    "shopByCategory": "تسوق حسب الفئة",
-    "pages": "الصفحات",
-    "bestSellers": "الأكثر مبيعًا",
-    "newArrivals": "الوافدون الجدد",
-    "homeAppliances": "الأجهزة المنزلية",
-    "audioGames": "الصوت والألعاب"
-  },
-  "HomePage": {
-    "title": "مرحبًا بك في فليو",
-    "description": "اكتشف سماعات أنيقة وعالية الجودة."
+    "inputSearch": "إنت بتدور على إيه بالظبط؟",
+    "Explore": {
+      "our_story": "قصتنا",
+      "our_journal": "مدونتنا",
+      "faqs": "الأسئلة الشائعة",
+      "contact_us": "اتصل بنا",
+      "contact_with_map": "اتصل بنا مع الخريطة",
+      "store_locations": "مواقع المتاجر",
+      "build_your_bundle": "كوّن حزمتك"
+    }
   },
   "Button": {
     "buyNow": "اشترِ الآن",
     "addToCart": "أضف إلى السلة"
-  },
-  "HeroSection": {
-    "welcomeMessage": "اكتشف أفضل السماعات لدينا"
   }
 }
