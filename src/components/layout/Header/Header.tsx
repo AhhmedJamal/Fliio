@@ -55,7 +55,7 @@ const Header = () => {
         dir="ltr"
         className="header relative p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background z-20"
       >
-        <div className="container flex justify-between items-center mx-auto">
+        <div className="container flex justify-between items-center mx-auto z-50 relative">
           <div className="logo">
             <h1 className={`${audiowide.className} text-5xl `}>Fliio</h1>
           </div>

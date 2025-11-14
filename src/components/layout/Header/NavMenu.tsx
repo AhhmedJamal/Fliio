@@ -9,7 +9,7 @@ import Info from "@/components/layout/Header/components/Info";
 import BestSeller from "@/components/layout/Header/components/BestSeller";
 import Explore from "@/components/layout/Header/components/Explore";
 import Category from "@/components/layout/Header/components/Category";
-import { motion, AnimatePresence } from "framer-motion";
+import Shimmer from "@/components/ui/Shemmier";
 
 interface NavLink {
   id?: number;
@@ -21,7 +21,7 @@ const NavMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
   const locale = useLocale();
-  const { data, loading, error } = useDataTable<NavLink>("nav_link");
+  const { data, loading } = useDataTable<NavLink>("nav_link");
   const components: Record<string, React.ComponentType> = {
     products_category: ProductsCategory,
     categories: Category,
@@ -46,49 +46,44 @@ const NavMenu = () => {
   }, [isMenuOpen]);
 
   return (
-    <nav className="container mx-auto py-4 w-fit">
-      <ul className="flex gap-x-4 gap-y-1 justify-between flex-wrap relative">
-        {navLinks.map((link) => {
-          const Component = components[link.type as keyof typeof components];
-          return (
-            <li
-              key={link.id ?? link.label[locale]}
-              role="menuitem"
-              className="group link-menu"
-              onMouseEnter={() => setIsMenuOpen(true)}
-              onMouseLeave={() => setIsMenuOpen(false)}
-            >
-              <div className="flex items-center relative gap-1 text-sm hover:cursor-pointer duration-200 before:content-[''] before:absolute before:bottom-0 before:-left-0.5 before:w-0 before:h-0.5 before:bg-neutral-400 transition-all hover:text-neutral-300 hover:before:w-full before:transition-all before:duration-300">
-                {link.label[locale] ? link.label[locale] : "loading"}
-                <IoIosArrowDown className="group-hover:-rotate-90 transition-all duration-300" />
-              </div>
+    <nav className="container mx-auto py-4 w-fit ">
+      <ul className="flex gap-x-4 gap-y-1 justify-between flex-wrap">
+        {!loading ? (
+          navLinks.map((link) => {
+            const Component = components[link.type as keyof typeof components];
+            return (
+              <li
+                key={link.id ?? link.label[locale]}
+                role="menuitem"
+                className={`group  ${
+                  link.type === "pages" || link.type === "info"
+                    ? "relative"
+                    : ""
+                }`}
+                onMouseEnter={() => setIsMenuOpen(true)}
+                onMouseLeave={() => setIsMenuOpen(false)}
+              >
+                <div className="flex items-center  gap-1 text-sm cursor-pointer">
+                  {link.label[locale]}
+                  <IoIosArrowDown className="transition-transform duration-300 group-hover:-rotate-90" />
+                </div>
 
-              {/* dropdown */}
-              <AnimatePresence>
-                {isMenuOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'fit-content', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="
-        absolute left-0 top-full w-full bg-white text-black p-4 shadow-lg rounded
-        z-10
-      "
-                  >
-                    {Component ? (
-                      <Component />
-                    ) : (
-                      <div className="py-1 text-gray-500 text-sm">
-                        No component found for {link.type}
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </li>
-          );
-        })}
+                {/* dropdown */}
+                <div className="absolute left-0 top-full p-4 w-fit h-[300px] bg-white text-black shadow-md rounded overflow-hidden -translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out pointer-events-none">
+                  {Component ? (
+                    <Component />
+                  ) : (
+                    <div className="p-4 text-gray-500 text-sm">
+                      No component
+                    </div>
+                  )}
+                </div>
+              </li>
+            );
+          })
+        ) : (
+          <Shimmer />
+        )}
       </ul>
     </nav>
   );
