@@ -2,8 +2,9 @@
 import React, { useRef } from "react";
 import { motion, useMotionValue, useAnimationFrame } from "framer-motion";
 import { toast, Toaster } from "sonner";
-import { useLocale, useTranslations } from "next-intl";
-
+import { useTranslations } from "next-intl";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 interface SlideTextTopProps {
   discount?: number;
   code?: string;
@@ -14,7 +15,7 @@ const SlideTextTop: React.FC<SlideTextTopProps> = ({
 }) => {
   const t = useTranslations("SlideTop");
   const textSlide = `${t("text", { dis: discount, code })}`;
-  const locale = useLocale();
+  const locale = useSelector((state: RootState) => state.locale.value);
 
   const x = useMotionValue(0);
   const containerRef = useRef<HTMLDivElement>(null);

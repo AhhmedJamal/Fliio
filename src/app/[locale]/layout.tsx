@@ -4,6 +4,7 @@ import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Header from "@/components/layout/Header/Header";
+import ReduxProviderWrapper from "@/components/layout/ReduxProviderWrapper";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -32,8 +33,10 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body cz-shortcut-listen="true" className={`${archivo.className} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <Header />
-          {children}
+            <ReduxProviderWrapper>
+              <Header />
+              {children}
+            </ReduxProviderWrapper>
         </NextIntlClientProvider>
       </body>
     </html>
@@ -41,29 +44,3 @@ export default async function RootLayout({
 }
 
 
-// components/
-// │
-// ├── layout/
-// │   ├── Header.tsx
-// │   ├── Navbar.tsx
-// │   ├── Footer.tsx
-// │   └── MainLayout.tsx
-// │
-// ├── shared/
-// │   ├── Button.tsx
-// │   ├── Card.tsx
-// │   ├── Modal.tsx
-// │   ├── ThemeSwitcher.tsx
-// │   └── LanguageSwitcher.tsx
-// │
-// └── ui/
-//     ├── HeroSection.tsx
-//     ├── FeaturesSection.tsx
-//     ├── Testimonials.tsx
-//     ├── PricingSection.tsx
-//     ├── FAQSection.tsx
-//     ├── ContactSection.tsx
-//     ├── AboutSection.tsx
-//     ├── ServicesSection.tsx
-//     ├── CTASection.tsx
-//     └── TeamSection.tsx

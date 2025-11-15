@@ -13,10 +13,11 @@ import { Audiowide } from "next/font/google";
 import { FaRegUser } from "react-icons/fa";
 import SlideTextTop from "@/components/ui/SlideTextTop";
 import { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import {  useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import NavMenu from "./NavMenu";
-
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 const audiowide = Audiowide({
   weight: "400",
   subsets: ["latin"],
@@ -28,7 +29,7 @@ const Header = () => {
   const selectValue: string[] = ["en", "ar", "de"];
   const router = useRouter();
   const pathname = usePathname();
-  const currentLocale = useLocale();
+  const locale = useSelector((state: RootState) => state.locale.value);
 
   const handleLanguageChange = (newLocale: string) => {
     const segments = pathname.split("/").filter(Boolean);
@@ -49,13 +50,13 @@ const Header = () => {
   };
 
   return (
-    <>
+    <div className="relative z-">
       <SlideTextTop />
       <header
         dir="ltr"
-        className="header relative p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background z-20"
+        className="header static p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background z-50"
       >
-        <div className="container flex justify-between items-center mx-auto z-50 relative">
+        <div className="container flex justify-between items-center mx-auto">
           <div className="logo">
             <h1 className={`${audiowide.className} text-5xl `}>Fliio</h1>
           </div>
@@ -82,7 +83,7 @@ const Header = () => {
               size={23}
               className="hover:cursor-pointer hover:scale-110 transition-transform duration-200"
             />
-            <Select value={currentLocale} onValueChange={handleLanguageChange}>
+            <Select value={locale} onValueChange={handleLanguageChange}>
               <SelectTrigger
                 className="w-[45px] border-none h-7 ml-1"
                 style={{
@@ -109,7 +110,7 @@ const Header = () => {
         </div>
         <NavMenu />
       </header>
-    </>
+    </div>
   );
 };
 
