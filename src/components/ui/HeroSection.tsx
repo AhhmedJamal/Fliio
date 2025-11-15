@@ -1,33 +1,106 @@
 "use client";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Controller,
+} from "swiper/modules";
 import { useDataTable } from "@/hooks/useDataTable";
 import { HeroSectionType } from "@/types";
-
 import Image from "next/image";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const HeroSection: React.FC = () => {
   const { data, loading, error } = useDataTable<HeroSectionType>("HeroSection");
+  
 
+  const [mainSwiper, setMainSwiper] = useState<Swiper | null>(null);
+  const [thumbSwiper, setThumbSwiper] = useState<Swiper | null>(null);
+   const locale = useSelector((state: RootState) => state.locale.value);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {String(error)}</p>;
 
   return (
-    <div className="p-10 text-center">
-      {data?.map((item) => (
-        <div key={item.id} className="slide-item">
-          {item.mediaType === "video" ? (
-            <video src={item.video} controls className="mx-auto rounded-2xl" />
-          ) : (
-            <img
-              width={500}
-              height={500}
-              src={item.image || "/fallback.jpg"}
-              alt={item.title.en}
-              className="mx-auto rounded-2xl"
-            />
-          )}
-        </div>
-      ))}
+    <div className="p-10 text-center relative">
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation
+        speed={1000}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        onSwiper={setMainSwiper}
+        controller={{ control: thumbSwiper }}
+        onSlideChange={() => console.log("slide change")}
+      >
+        {data?.map((item) => (
+          <SwiperSlide key={item.id} className="slide-item- h-full">
+            {item.mediaType === "video" ? (
+              <video
+                autoPlay
+                muted
+                playsInline
+                loop
+                preload="metadata"
+                className="mx-auto rounded-2xl h-full w-full"
+              >
+                <source src={item.video} type="video/mp4" />
+              </video>
+            ) : (
+              <Image
+                width={500}
+                height={500}
+                src={item.image || "/fallback.jpg"}
+                alt={item.title.en}
+                className="mx-auto rounded-2xl h-full w-full"
+              />
+            )}
+            <h2 className="absolute top-1/2 text-white">{item.title[locale]}</h2>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        onSwiper={setThumbSwiper}
+        controller={{ control: mainSwiper }}
+        onSlideChange={() => console.log("slide change")}
+      >
+        {data?.map((item) => (
+          <SwiperSlide key={item.id} className="slide-item- h-full">
+            {item.mediaType === "video" ? (
+              <video
+                autoPlay
+                muted
+                playsInline
+                loop
+                preload="metadata"
+                className="mx-auto rounded-2xl h-full w-full"
+              >
+                <source src={item.video} type="video/mp4" />
+              </video>
+            ) : (
+              <Image
+                width={500}
+                height={500}
+                src={item.image || "/fallback.jpg"}
+                alt={item.title.en}
+                className="mx-auto rounded-2xl h-full w-full"
+              />
+            )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };

@@ -1,15 +1,15 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useDataTable } from "@/hooks/useDataTable";
-import { useLocale } from "next-intl";
 import ProductsCategory from "@/components/layout/Header/components/ProductCategory";
 import Info from "@/components/layout/Header/components/Info";
 import BestSeller from "@/components/layout/Header/components/BestSeller";
 import Explore from "@/components/layout/Header/components/Explore";
 import Category from "@/components/layout/Header/components/Category";
 import Shimmer from "@/components/ui/Shemmier";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface NavLink {
   id?: number;
@@ -20,7 +20,7 @@ interface NavLink {
 const NavMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [navLinks, setNavLinks] = useState<NavLink[]>([]);
-  const locale = useLocale();
+  const locale = useSelector((state: RootState) => state.locale.value);
   const { data, loading } = useDataTable<NavLink>("nav_link");
   const components: Record<string, React.ComponentType> = {
     products_category: ProductsCategory,
@@ -55,10 +55,8 @@ const NavMenu = () => {
               <li
                 key={link.id ?? link.label[locale]}
                 role="menuitem"
-                className={`group  ${
-                  link.type === "pages" || link.type === "info"
-                    ? "relative"
-                    : ""
+                className={`group static ${
+                  link.type === "pages" || link.type === "info" ? "relative" : ""
                 }`}
                 onMouseEnter={() => setIsMenuOpen(true)}
                 onMouseLeave={() => setIsMenuOpen(false)}
@@ -69,7 +67,7 @@ const NavMenu = () => {
                 </div>
 
                 {/* dropdown */}
-                <div className="absolute left-0 top-full p-4 w-fit h-[300px] bg-white text-black shadow-md rounded overflow-hidden -translate-y-5 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out pointer-events-none">
+                <div className="absolute -z-[1] left-0 top-[150px] p-4 w-full h-[300px] bg-white text-black shadow-md rounded overflow-hidden  -translate-y-[300px] group-hover:translate-y-0 transition-all duration-500 ease-out pointer-events-none">
                   {Component ? (
                     <Component />
                   ) : (
