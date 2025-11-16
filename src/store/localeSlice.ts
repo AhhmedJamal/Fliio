@@ -2,10 +2,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Locale } from "@/i18n/routing";
 
+interface LocaleState {
+  value: Locale;
+}
 
-
-const initialState = {
-  value: "",
+const initialState: LocaleState = {
+  value: "en", 
 };
 
 const localeSlice = createSlice({
