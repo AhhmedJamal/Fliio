@@ -1,5 +1,18 @@
 "use client";
+import "@/styles/HeroSection.css";
+import Image from "next/image";
+import ProductCard from "../products/ProductCard";
+import error from "next/error";
+import Shimmer from "./Shemmier";
+import { useState } from "react";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import { ProductType } from "@/types/product";
+import { useDataTable } from "@/hooks/useDataTable";
+import { useDataSelect } from "@/hooks/useDataSelect";
+import { HeroSectionType } from "@/types";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import {
   Navigation,
   Pagination,
@@ -7,14 +20,10 @@ import {
   A11y,
   Controller,
 } from "swiper/modules";
-import { useDataTable } from "@/hooks/useDataTable";
-import { HeroSectionType } from "@/types";
-import Image from "next/image";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { ProductType } from "@/types/product";
 
+interface UseDataSelectProps {
+  data: ProductType[];
+}
 const HeroSection: React.FC = () => {
   const {
     data: heroData,
@@ -22,21 +31,23 @@ const HeroSection: React.FC = () => {
     error: heroError,
   } = useDataTable<HeroSectionType>("HeroSection");
 
-  const {
-    data: productsData,
-    loading: productsLoading,
-    error: productsError,
-  } = useDataTable<ProductType>("products");
-  console.log(productsData[0]);
-
-  const [mainSwiper, setMainSwiper] = useState<Swiper | null>(null);
-  const [thumbSwiper, setThumbSwiper] = useState<Swiper | null>(null);
+  const { data: productsData } = useDataSelect<UseDataSelectProps>("products");
+  const [mainSwiper, setMainSwiper] = useState<SwiperType | null>(null);
+  const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
   const locale = useSelector((state: RootState) => state.locale.value);
-  if (heroLoading) return <p>Loading...</p>;
+  if (heroLoading)
+    return (
+      <Shimmer
+        count={1}
+        width="w-[80%]"
+        height="h-96"
+        rounded="rounded"
+        backGroundColor="bg-neutral-300"
+      />
+    );
   if (heroError) return <p>Error: {String(error)}</p>;
-
   return (
-    <div className="p-10 text-center relative">
+    <div className="Hero-section p-10 text-center relative">
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
         spaceBetween={50}
@@ -82,18 +93,18 @@ const HeroSection: React.FC = () => {
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
         spaceBetween={50}
         slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
         onSwiper={setThumbSwiper}
         controller={{ control: mainSwiper }}
         onSlideChange={() => console.log("slide change")}
       >
-        {productsData?.map((item) => (
+        {productsData[0]?.data?.map((item) => (
           <SwiperSlide
             key={item.id}
-            className="slide-item- h-full"
-          ></SwiperSlide>
+            className="slide-item- h-full absolute top-1/2 right-0 z-20"
+          >
+            <ProductCard data={item} />
+          </SwiperSlide>
         ))}
       </Swiper>
     </div>

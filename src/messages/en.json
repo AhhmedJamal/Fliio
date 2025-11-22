@@ -19,5 +19,11 @@
   "Button": {
     "buyNow": "Buy Now",
     "addToCart": "Add to Cart"
+  } ,
+    "HeroSection": {
+    "shopNow": "Shop Now"
+  },
+  "productCard": {
+    "addToCart": "Add to Cart - "
   }
 }

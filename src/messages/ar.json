@@ -19,5 +19,11 @@
   "Button": {
     "buyNow": "اشترِ الآن",
     "addToCart": "أضف إلى السلة"
+  },
+  "HeroSection": {
+    "shopNow": "تسوق الآن"
+  },
+  "productCard": {
+    "addToCart": "أضف إلى السلة - "
   }
 }

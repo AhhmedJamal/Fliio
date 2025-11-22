@@ -1,36 +1,50 @@
 interface LocalizedString {
-  ar: string;
-  de: string;
-  en: string;
+  ar?: string;
+  en?: string;
+  de?: string;
+  [lang: string]: string | undefined;
 }
 
 interface ColorOption {
-  color: string; // ممكن تحط اسم اللون أو قيمة hex
+  color: string;
 }
 
 interface Feature {
-  ar: string;
-  de: string;
-  en: string;
+  ar?: string;
+  en?: string;
+  de?: string;
 }
 
+interface Accessory {
+  id: string;
+  name: LocalizedString;
+  image?: string;
+  price?: number;
+}
 
+interface Category {
+  ar: string;
+  en: string;
+  de: string;
+}
 
 export interface ProductType {
   id: string;
-  sku: string;
+  sku?: string;
   name: LocalizedString;
   brand: string;
-  price: number;         // سعر كعدد (مثلاً 12999)
-  stock: number;         // كمية في المخزون
-  colors: ColorOption[];
-  images: string[];      // روابط الصور
-  rating: number;        // تقييم (مثلاً 4.5)
-  category: string;
-  currency: string;      // رمز العملة (مثلاً "LE")
-  features: Feature[];
-  createdAt: string;     // ISO date string (أو Date لو حبّيت)
-  thumbnail: string;     // رابط الصورة المصغرة
+  price: number;
+  currency?: string;
+  stock?: number;
+  images?: string[];
+  thumbnail?: string;
+  colors?: ColorOption[];
+  rating: number;
+  reviewsCount?: number;
+  category: Category;
+  features?: Feature[];
+  accessories?: Accessory[];
   description: LocalizedString;
-  reviewsCount: number;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 }
