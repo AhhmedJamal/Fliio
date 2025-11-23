@@ -1,11 +1,16 @@
 import { Locale } from '@/i18n/routing';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useLocale } from "next-intl";
+import { setLocale } from "@/store/localeSlice";
+import { Locale } from "@/i18n/routing";
 
 
-interface LocaleState {
-  locale: Locale;
-}
+  useEffect(() => {
+    dispatch(setLocale(locale as Locale));
+  }, [locale, dispatch]);
 
 const initialState: LocaleState = {
   locale: 'en',

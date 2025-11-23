@@ -1,9 +1,10 @@
+"use client";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/config";
 
 type useDataError = string | null;
 const memoryCache: Record<string, unknown[]> = {};
-export function useDataTable<T>(tableName: string) {
+export function useDataSelect<T>(tableName: string) {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<useDataError>(null);
@@ -26,10 +27,14 @@ export function useDataTable<T>(tableName: string) {
         setLoading(false);
         return;
       }
+
       try {
         setLoading(true);
         setError(null);
-        const { data, error } = await supabase.from(tableName).select("*");
+        const { data, error } = await supabase
+          .from(tableName)
+          .select("*")
+          .range(5, 5);
         if (error) throw error;
         if (data) {
           memoryCache[tableName] = data;
@@ -45,6 +50,7 @@ export function useDataTable<T>(tableName: string) {
 
     fetchData();
   }, [tableName]);
+
   const refresh = async () => {
     memoryCache[tableName] = [];
     localStorage.removeItem(`table-${tableName}`);

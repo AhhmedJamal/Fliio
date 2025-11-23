@@ -1,0 +1,10 @@
+.Hero-section {
+  .swiper-wrapper:nth-child(1) {
+    width: fit-content;
+    /* position: absolute; */
+    z-index: 0;
+    right: 0;
+    top: 0;
+    height: fit-content;
+  }
+}

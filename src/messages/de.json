@@ -19,5 +19,12 @@
   "Button": {
     "buyNow": "Jetzt kaufen",
     "addToCart": "In den Warenkorb"
+  },
+    "HeroSection": {
+    "shopNow": "Jetzt einkaufen"
+  },
+  "productCard": {
+    "addToCart": "In den Warenkorb - "
   }
+
 }
