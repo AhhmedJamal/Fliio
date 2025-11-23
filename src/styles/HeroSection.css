@@ -1,10 +1,24 @@
 .Hero-section {
-  .swiper-wrapper:nth-child(1) {
+  height: 830px;
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: white !important;
+    width: 70px !important;
+    height: 35px !important;
+    bottom: 19px;
+    top: unset;
+  }
+  .swiper-button-prev {
+    right: 130px;
+    left: unset;
+    bottom: 18px;
+  }
+  .swiper-pagination {
     width: fit-content;
-    /* position: absolute; */
-    z-index: 0;
-    right: 0;
-    top: 0;
-    height: fit-content;
+    right: 6%;
+    bottom: 3% !important;
+    left: unset;
+    font-size: 20px;
+    color: white;
   }
 }

@@ -12,7 +12,6 @@ import { useDataTable } from "@/hooks/useDataTable";
 import { useDataSelect } from "@/hooks/useDataSelect";
 import { HeroSectionType } from "@/types";
 import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
 import {
   Navigation,
   Pagination,
@@ -20,10 +19,12 @@ import {
   A11y,
   Controller,
 } from "swiper/modules";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface UseDataSelectProps {
   data: ProductType[];
 }
+
 const HeroSection: React.FC = () => {
   const {
     data: heroData,
@@ -32,9 +33,8 @@ const HeroSection: React.FC = () => {
   } = useDataTable<HeroSectionType>("HeroSection");
 
   const { data: productsData } = useDataSelect<UseDataSelectProps>("products");
-  const [mainSwiper, setMainSwiper] = useState<SwiperType | null>(null);
-  const [thumbSwiper, setThumbSwiper] = useState<SwiperType | null>(null);
   const locale = useSelector((state: RootState) => state.locale.value);
+  const [activeIndex, setActiveIndex] = useState(0);
   if (heroLoading)
     return (
       <Shimmer
@@ -46,23 +46,26 @@ const HeroSection: React.FC = () => {
       />
     );
   if (heroError) return <p>Error: {String(error)}</p>;
+
   return (
-    <div className="Hero-section p-10 text-center relative">
+    <div className="Hero-section p-10 text-center relative min-h-[600px]">
+      {/* Main Hero Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
         spaceBetween={50}
         slidesPerView={1}
         navigation
         speed={1000}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
-        pagination={{ clickable: true }}
+        pagination={{
+          type: "fraction",
+          clickable: true,
+        }}
         scrollbar={{ draggable: true }}
-        onSwiper={setMainSwiper}
-        controller={{ control: thumbSwiper }}
-        onSlideChange={() => console.log("slide change")}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+        className="h-full rounded-2xl"
       >
         {heroData?.map((item) => (
-          <SwiperSlide key={item.id} className="slide-item- h-full">
+          <SwiperSlide key={item.id} className="relative h-full">
             {item.mediaType === "video" ? (
               <video
                 autoPlay
@@ -70,43 +73,61 @@ const HeroSection: React.FC = () => {
                 playsInline
                 loop
                 preload="metadata"
-                className="mx-auto rounded-2xl h-full w-full"
+                className="w-full h-full object-cover rounded-2xl"
               >
                 <source src={item.video} type="video/mp4" />
               </video>
             ) : (
               <Image
-                width={500}
-                height={500}
+                width={1920}
+                height={1080}
                 src={item.image || "/fallback.jpg"}
                 alt={item.title.en}
-                className="mx-auto rounded-2xl h-full w-full"
+                className="w-full h-full object-cover rounded-2xl"
               />
             )}
-            <h2 className="absolute top-1/2 text-white">
-              {item.title[locale]}
-            </h2>
+            <div className="absolute inset-0 bg-black/30 rounded-2xl flex items-center justify-center">
+              <h2 className="text-white text-4xl md:text-6xl font-bold">
+                {item.title[locale]}
+              </h2>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
-        spaceBetween={50}
-        slidesPerView={1}
-        scrollbar={{ draggable: true }}
-        onSwiper={setThumbSwiper}
-        controller={{ control: mainSwiper }}
-        onSlideChange={() => console.log("slide change")}
-      >
-        {productsData[0]?.data?.map((item) => (
-          <SwiperSlide
-            key={item.id}
-            className="slide-item- h-full absolute top-1/2 right-0 z-20"
-          >
-            <ProductCard data={item} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+
+      {/* Product Cards Swiper - Positioned on top */}
+      <div className="absolute top-[45%] right-10 -translate-y-1/2 z-20 w-80 max-w-[90%]">
+        <AnimatePresence mode="wait">
+          {productsData[0]?.data?.map(
+            (item, index) =>
+              index === activeIndex && (
+                <motion.div
+                  key={item.id}
+                  initial={{ y: 100, opacity: 0 }}
+                  animate={{
+                    y: [100, 0, -8, 0, -5, 0, -8, 0],
+                    opacity: 1,
+                  }}
+                  exit={{
+                    y: -100,
+                    opacity: 0,
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    ease: "backOut",
+                    y: {
+                      duration: 0.8,
+                      times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.85, 1],
+                    },
+                  }}
+                >
+                  <ProductCard data={item} />
+                </motion.div>
+              )
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="w-[95%] m-auto h-px bg-neutral-300 relative bottom-20 z-10"></div>
     </div>
   );
 };

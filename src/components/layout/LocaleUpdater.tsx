@@ -1,30 +1,17 @@
-import { Locale } from '@/i18n/routing';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+"use client";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocale } from "next-intl";
-import { setLocale } from "@/store/localeSlice";
-import { Locale } from "@/i18n/routing";
+import { setLocale as setLocaleAction } from "@/store/localeSlice";
+import type { Locale } from "@/i18n/routing";
 
+export default function LocaleUpdater() {
+  const dispatch = useDispatch();
+  const locale = useLocale();
 
   useEffect(() => {
-    dispatch(setLocale(locale as Locale));
+    dispatch(setLocaleAction(locale as Locale));
   }, [locale, dispatch]);
 
-const initialState: LocaleState = {
-  locale: 'en',
-};
-
-const localeSlice = createSlice({
-  name: 'locale',
-  initialState,
-  reducers: {
-    setLocale: (state, action: PayloadAction<Locale>) => {
-      state.locale = action.payload;
-    },
-  },
-});
-
-export const { setLocale } = localeSlice.actions;
-export default localeSlice.reducer;
+  return null;
+}
