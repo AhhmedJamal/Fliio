@@ -21,7 +21,8 @@
     "addToCart": "In den Warenkorb"
   },
     "HeroSection": {
-    "shopNow": "Jetzt einkaufen"
+    "shopNow": "Jetzt einkaufen",
+    "featuredItems": "Ausgewählte Artikel"
   },
   "productCard": {
     "addToCart": "In den Warenkorb - "
