@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 import Button from "../ui/Button";
+import { toast } from "sonner";
 type ProductCardProps = {
   data: ProductType;
 };
@@ -58,10 +59,23 @@ const ProductCard = ({ data }: ProductCardProps) => {
   }).format(price);
   // Handle Add to Cart
   const onClickAddToCart = () => {
-    console.log("Add to cart clicked");
+    handleSuccessClick();
   };
+
+  const handleSuccessClick = () => {
+    toast.success("Successfully added to cart", {
+      description: name[locale],
+      action: {
+        label: "Undo",
+        onClick: () => {
+          toast.error("Done Remove to cart");
+        },
+      },
+    });
+  };
+
   return (
-    <div className="product-card border p-4 rounded-lg shadow-md flex flex-col ltr:items-start rtl:items-end max-w-[300px]">
+    <div className="product-card  p-4 rounded-lg shadow-md flex flex-col ltr:items-start rtl:items-end max-w-[300px] bg-white">
       <Image
         src={thumbnail || images?.[0] || "/placeholder.png"}
         alt={name[locale] || "Product Image"}
