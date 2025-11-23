@@ -4,7 +4,7 @@ import Image from "next/image";
 import ProductCard from "../products/ProductCard";
 import error from "next/error";
 import Shimmer from "./Shemmier";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { ProductType } from "@/types/product";
@@ -20,6 +20,10 @@ import {
   Controller,
 } from "swiper/modules";
 import { AnimatePresence, motion } from "framer-motion";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import type { Swiper as SwiperType } from "swiper";
+import { useTranslations } from "next-intl";
+import ButtonLink from "./ButtonLink";
 
 interface UseDataSelectProps {
   data: ProductType[];
@@ -35,6 +39,8 @@ const HeroSection: React.FC = () => {
   const { data: productsData } = useDataSelect<UseDataSelectProps>("products");
   const locale = useSelector((state: RootState) => state.locale.value);
   const [activeIndex, setActiveIndex] = useState(0);
+  const swiperRef = useRef<SwiperType | null>(null);
+  const t = useTranslations("HeroSection");
   if (heroLoading)
     return (
       <Shimmer
@@ -48,26 +54,27 @@ const HeroSection: React.FC = () => {
   if (heroError) return <p>Error: {String(error)}</p>;
 
   return (
-    <div className="Hero-section p-10 text-center relative min-h-[600px]">
+    <div className="Hero-section max-w-280  mx-auto my-4 text-center relative">
       {/* Main Hero Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
         spaceBetween={50}
         slidesPerView={1}
-        navigation
         speed={1000}
-        pagination={{
-          type: "fraction",
-          clickable: true,
-        }}
         scrollbar={{ draggable: true }}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         className="h-full rounded-2xl"
       >
         {heroData?.map((item) => (
           <SwiperSlide key={item.id} className="relative h-full">
             {item.mediaType === "video" ? (
-              <video
+              <motion.video
+                key={`video-${item.id}`}
+                initial={{ scale: 1.3 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 1.1, opacity: 0 }}
+                transition={{ duration: 1, ease: "backIn" }}
                 autoPlay
                 muted
                 playsInline
@@ -76,58 +83,97 @@ const HeroSection: React.FC = () => {
                 className="w-full h-full object-cover rounded-2xl"
               >
                 <source src={item.video} type="video/mp4" />
-              </video>
+              </motion.video>
             ) : (
-              <Image
-                width={1920}
-                height={1080}
-                src={item.image || "/fallback.jpg"}
-                alt={item.title.en}
-                className="w-full h-full object-cover rounded-2xl"
-              />
+              <motion.div
+                key={`image-${item.id}`}
+                initial={{ scale: 1.3 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 1.1, opacity: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="w-full h-full"
+              >
+                <Image
+                  width={1920}
+                  height={1080}
+                  src={item.image || "/fallback.jpg"}
+                  alt={item.title.en}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+              </motion.div>
             )}
-            <div className="absolute inset-0 bg-black/30 rounded-2xl flex items-center justify-center">
-              <h2 className="text-white text-4xl md:text-6xl font-bold">
-                {item.title[locale]}
-              </h2>
+            <div className="absolute px-9 inset-0 h-[90%] rounded-2xl flex items-center justify-between flex-row ">
+              <div className="flex flex-col items-start gap-4 max-w-1/2">
+                <p className="text-white">{t("featuredItems")}</p>
+                <h2 className="text-white text-4xl font-bold text-left">
+                  {item.title[locale]}
+                </h2>
+                <ButtonLink is_dark={false} link="" styles="px-9 py-1 w-fit">
+                  {t("shopNow")}
+                </ButtonLink>
+              </div>
+              {/* Product Cards Swiper - Positioned on top */}
+              <div className=" z-20 w-56 ">
+                <AnimatePresence mode="wait">
+                  {productsData[0]?.data?.map(
+                    (item, index) =>
+                      index === activeIndex && (
+                        <motion.div
+                          key={item.id}
+                          initial={{ y: 100, opacity: 0 }}
+                          animate={{
+                            y: [100, 0, -8, 0, -5, 0, -8, 0],
+                            opacity: 1,
+                          }}
+                          exit={{
+                            y: -100,
+                            opacity: 0,
+                          }}
+                          transition={{
+                            duration: 0.8,
+                            ease: "backOut",
+                            y: {
+                              duration: 0.8,
+                              times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.85, 1],
+                            },
+                          }}
+                        >
+                          <ProductCard product={item} />
+                        </motion.div>
+                      )
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Product Cards Swiper - Positioned on top */}
-      <div className="absolute top-[45%] right-10 -translate-y-1/2 z-20 w-80 max-w-[90%]">
-        <AnimatePresence mode="wait">
-          {productsData[0]?.data?.map(
-            (item, index) =>
-              index === activeIndex && (
-                <motion.div
-                  key={item.id}
-                  initial={{ y: 100, opacity: 0 }}
-                  animate={{
-                    y: [100, 0, -8, 0, -5, 0, -8, 0],
-                    opacity: 1,
-                  }}
-                  exit={{
-                    y: -100,
-                    opacity: 0,
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "backOut",
-                    y: {
-                      duration: 0.8,
-                      times: [0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.85, 1],
-                    },
-                  }}
-                >
-                  <ProductCard data={item} />
-                </motion.div>
-              )
-          )}
-        </AnimatePresence>
+      <div className="absolute  bottom-2 px-[38px] gap-5 left-5 right-5 flex items-center justify-center z-10">
+        {/* Left  Buttons */}
+        <button
+          onClick={() => swiperRef.current?.slidePrev()}
+          className=" p-3 rounded-full transition-all duration-300 hover:scale-110 group"
+          aria-label="Previous slide"
+        >
+          <FaChevronLeft className="text-white text-2xl group-hover:text-neutral-300 transition-colors" />
+        </button>
+        {/* Custom Pagination */}
+        <div className="  backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+          <span className="font-semibold text-lg text-white">
+            {activeIndex + 1} / {heroData?.length || 0}
+          </span>
+        </div>
+        {/* Right Navigation*/}
+        <button
+          onClick={() => swiperRef.current?.slideNext()}
+          className=" p-3 rounded-full transition-all duration-300 hover:scale-110 group"
+          aria-label="Next slide"
+        >
+          <FaChevronRight className="text-white text-2xl group-hover:text-neutral-300 transition-colors" />
+        </button>
       </div>
-      <div className="w-[95%] m-auto h-px bg-neutral-300 relative bottom-20 z-10"></div>
+      <div className="w-[95%] m-auto h-px bg-neutral-300 relative bottom-16 z-10"></div>
     </div>
   );
 };

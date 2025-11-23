@@ -130,7 +130,7 @@ body {
   -ms-overflow-style: none;
 }
 body.menu-open {
-  background-color: rgba(0, 0, 0, 0.5); /* تأثير overlay */
+  background-color: rgba(0, 0, 0, 0.5); 
   transition: background-color 0.3s ease;
 }
 header {
@@ -186,3 +186,33 @@ body::-webkit-scrollbar {
   transform: translateX(-100%);
   animation: shimmer 1.2s infinite;
 }
+
+.btn-border {
+  position: relative;
+  z-index: 0;
+  transition: scale 0.3s;
+}
+
+.btn-border:hover {
+  scale: 0.95;
+}
+
+/* style border btn  */
+.btn-border::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid#7d7d7d;
+  border-radius: 999px;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.btn-border:hover::before {
+  top: 0px;
+  left: 0px;
+}
+
