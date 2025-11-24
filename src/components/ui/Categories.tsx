@@ -16,7 +16,7 @@ interface CategoriesProps {
 const Categories = () => {
   const { data } = useDataSelect<CategoriesProps>("categories");
   const locale = useSelector((state: RootState) => state.locale.value);
-  console.log(data);
+  console.log(data);   
 
   return (
     <div>
