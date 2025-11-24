@@ -54,7 +54,7 @@ const HeroSection: React.FC = () => {
   if (heroError) return <p>Error: {String(error)}</p>;
 
   return (
-    <div className="Hero-section max-w-280  mx-auto my-4 text-center relative">
+    <div className="Hero-section max-w-280 md:container mx-auto my-4 text-center relative h-[600px] md:h-[650px]">
       {/* Main Hero Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
@@ -66,7 +66,7 @@ const HeroSection: React.FC = () => {
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         className="h-full rounded-2xl"
       >
-        {heroData?.map((item) => (
+        {heroData?.map((item, idx) => (
           <SwiperSlide key={item.id} className="relative h-full">
             {item.mediaType === "video" ? (
               <motion.video
@@ -102,18 +102,37 @@ const HeroSection: React.FC = () => {
                 />
               </motion.div>
             )}
-            <div className="absolute px-9 inset-0 h-[90%] rounded-2xl flex items-center justify-between flex-row ">
-              <div className="flex flex-col items-start gap-4 max-w-1/2">
-                <p className="text-white">{t("featuredItems")}</p>
-                <h2 className="text-white text-4xl font-bold text-left">
+            <div className="absolute pt-12 px-9 inset-0 h-[90%] rounded-2xl flex justify-between flex-row ">
+              <motion.div
+                key={
+                  idx === activeIndex
+                    ? `content-active-${item.id}`
+                    : `content-${item.id}`
+                }
+                className="flex flex-col items-start gap-12 max-w-1/3 overflow-hidden"
+              >
+                <motion.p
+                  initial={{ x: -150, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 1.8, ease: "backOut" }}
+                  className="text-white"
+                >
+                  {t("featuredItems")}
+                </motion.p>
+                <motion.h2
+                  initial={{ y: -150, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 1, ease: "backOut", delay: 0.2 }}
+                  className="text-white text-4xl md:text-5xl font-bold text-left"
+                >
                   {item.title[locale]}
-                </h2>
+                </motion.h2>
                 <ButtonLink is_dark={false} link="" styles="px-9 py-1 w-fit">
                   {t("shopNow")}
                 </ButtonLink>
-              </div>
+              </motion.div>
               {/* Product Cards Swiper - Positioned on top */}
-              <div className=" z-20 w-56 ">
+              <div className=" z-20 w-56 md:w-72">
                 <AnimatePresence mode="wait">
                   {productsData[0]?.data?.map(
                     (item, index) =>

@@ -47,7 +47,7 @@ const NavMenu = () => {
 
   return (
     <nav className="container mx-auto py-4 w-fit ">
-      <ul className="flex gap-x-4 gap-y-1 justify-between flex-wrap">
+      <ul className="flex gap-x-4 gap-y-1 justify-between flex-wrap ">
         {!loading ? (
           navLinks.map((link) => {
             const Component = components[link.type as keyof typeof components];
@@ -55,8 +55,8 @@ const NavMenu = () => {
               <li
                 key={link.id ?? link.label[locale]}
                 role="menuitem"
-                className={`group static ${
-                  link.type === "pages" || link.type === "info" ? "relative" : ""
+                className={`group ${
+                  link.type === "pages" || link.type === "info" ? "" : ""
                 }`}
                 onMouseEnter={() => setIsMenuOpen(true)}
                 onMouseLeave={() => setIsMenuOpen(false)}
@@ -67,7 +67,7 @@ const NavMenu = () => {
                 </div>
 
                 {/* dropdown */}
-                <div className="absolute -z-[1] left-0 top-[150px] p-4 w-full h-[300px] bg-white text-black shadow-md rounded overflow-hidden  -translate-y-[300px] group-hover:translate-y-0 transition-all duration-500 ease-out pointer-events-none">
+                <div className="absolute z-10 left-0 top-[150px] p-4 w-full h-[300px] bg-white text-black shadow-md rounded overflow-hidden opacity-0 -translate-y-2.5 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out pointer-events-none">
                   {Component ? (
                     <Component />
                   ) : (
