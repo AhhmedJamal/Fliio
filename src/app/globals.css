@@ -129,10 +129,25 @@ body {
   overflow-x: hidden;
   -ms-overflow-style: none;
 }
-body.menu-open {
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5); 
-  transition: background-color 0.3s ease;
+  z-index: 40; 
+  opacity: 0;
+  pointer-events: none; 
+  transition: opacity 0.3s ease;
 }
+
+body.menu-open::before {
+  opacity: 1;
+  pointer-events: auto; 
+}
+
 header {
   .lucide-chevron-down {
     stroke: white;
@@ -215,4 +230,3 @@ body::-webkit-scrollbar {
   top: 0px;
   left: 0px;
 }
-

@@ -13,7 +13,7 @@ import { Audiowide } from "next/font/google";
 import { FaRegUser } from "react-icons/fa";
 import SlideTextTop from "@/components/ui/SlideTextTop";
 import { useState } from "react";
-import {  useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import NavMenu from "./NavMenu";
 import { RootState } from "@/store/store";
@@ -50,12 +50,9 @@ const Header = () => {
   };
 
   return (
-    <div className="relative z-">
+    <div className=" dark:bg-gray-800 bg-(--text) text-background relative  z-50 shadow-md ">
       <SlideTextTop />
-      <header
-        dir="ltr"
-        className="header static p-4 pb-0 shadow-md dark:bg-gray-800  bg-(--text) text-background z-50"
-      >
+      <header dir="ltr" className="header p-4 pb-0 ">
         <div className="container flex justify-between items-center mx-auto">
           <div className="logo">
             <h1 className={`${audiowide.className} text-5xl `}>Fliio</h1>

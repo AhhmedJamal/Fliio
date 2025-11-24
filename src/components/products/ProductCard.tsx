@@ -7,7 +7,9 @@ import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 import { toast } from "sonner";
 import { useState } from "react";
 import Button from "../ui/Button";
-
+import { RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
+import { AiOutlineEye } from "react-icons/ai";
+import { AnimatePresence, motion } from "framer-motion";
 type ProductCardProps = {
   product: ProductType;
 };
@@ -15,17 +17,12 @@ type ProductCardProps = {
 const ProductCard = (props: ProductCardProps) => {
   const locale = useSelector((state: RootState) => state.locale.value);
   const product = props.product;
-  // Destructure product data
-
   const t = useTranslations("productCard");
-
-  // State for selected image and transition
+  const [heart, setHeart] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [selectedImage, setSelectedImage] = useState(
     product.thumbnail || product.images?.[0] || "/placeholder.png"
   );
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Get first 3 product.images
   const displayImages = product.images?.slice(0, 3) || [];
 
   // Handle image change with transition
@@ -89,10 +86,56 @@ const ProductCard = (props: ProductCardProps) => {
       },
     });
   };
-
+  const handleHeart = () => {
+    setHeart(!heart);
+  };
   return (
-    <div className="product-card p-4 rounded-lg shadow-md flex flex-col items-start w-full bg-white">
+    <div className="product-card p-4 rounded-lg shadow-md flex flex-col items-start w-full bg-white group">
       <div className="relative overflow-hidden rounded w-full">
+        <div className="icons absolute top-2 -right-10 group-hover:right-1  transition-all duration-500 flex flex-col gap-2 z-10">
+          <motion.div
+            whileTap={{ scale: 0.8 }}
+            className="bg-white p-1.5 rounded-full shadow-md cursor-pointer hover:scale-105 transition-transform border-neutral-300 border"
+          >
+            <AiOutlineEye size={25} />
+          </motion.div>
+
+          <motion.div
+            onClick={handleHeart}
+            whileTap={{ scale: 0.8 }}
+            className="bg-white p-1.5 rounded-full shadow-md cursor-pointer hover:scale-105 transition-transform border-neutral-300 border"
+          >
+            <AnimatePresence mode="wait">
+              {heart ? (
+                <motion.div
+                  key="filled"
+                  initial={{ scale: 0 }}
+                  animate={{
+                    scale: [0, 1.3, 1],
+                    rotate: [0, -10, 10, 0],
+                  }}
+                  exit={{ scale: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    ease: "backOut",
+                  }}
+                >
+                  <RiHeart3Fill color="red" size={24} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="outline"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <RiHeart3Line size={24} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
         <Image
           src={selectedImage}
           alt={product.name[locale] || "Product Image"}
@@ -121,13 +164,13 @@ const ProductCard = (props: ProductCardProps) => {
           />
         ))}
       </div>
-      <div className=" w-full flex items-center justify-between">
+      <div className=" w-full flex items-center justify-between my-0.5">
         <p className="text-sm text-neutral-400">{product.brand}</p>
         {StarRating({ rating: product.rating || 0 })}
       </div>
       <h2 className="text-lg font-bold">{product.name[locale]}</h2>
 
-      <p className="text-sm font-semibold my-2">
+      <p className="text-sm font-semibold my-1">
         {product.currency} {formattedPrice}
       </p>
 
