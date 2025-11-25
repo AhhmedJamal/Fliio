@@ -73,9 +73,9 @@ const SlideTextTop: React.FC<SlideTextTopProps> = ({
           animate={{
             x: isRTL ? [0, getContentHalfWidth()] : [0, -getContentHalfWidth()],
           }}
-          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
         >
-          {Array.from({ length: 5 }).map((_, idx) => (
+          {Array.from({ length: 10 }).map((_, idx) => (
             <span key={idx}>{textSlide}</span>
           ))}
         </motion.div>

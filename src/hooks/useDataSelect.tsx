@@ -21,20 +21,28 @@ export function useDataSelect<T>(tableName: string) {
 
       const cached = localStorage.getItem(`table-${tableName}`);
       if (cached) {
-        const parsed = JSON.parse(cached);
-        memoryCache[tableName] = parsed;
-        setData(parsed);
-        setLoading(false);
-        return;
+        try {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            memoryCache[tableName] = parsed;
+            setData(parsed);
+            setLoading(false);
+            return;
+          }
+        } catch (e) {
+          console.error("Error parsing cached data:", e);
+          if (typeof window !== "undefined") {
+            localStorage.removeItem(`table-${tableName}`);
+          }
+        }
       }
-
       try {
         setLoading(true);
         setError(null);
         const { data, error } = await supabase
           .from(tableName)
           .select("*")
-          .range(5, 5);
+          .range(0, 2);
         if (error) throw error;
         if (data) {
           memoryCache[tableName] = data;

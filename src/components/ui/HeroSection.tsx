@@ -12,6 +12,11 @@ import { useDataTable } from "@/hooks/useDataTable";
 import { useDataSelect } from "@/hooks/useDataSelect";
 import { HeroSectionType } from "@/types";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { AnimatePresence, motion } from "framer-motion";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import type { Swiper as SwiperType } from "swiper";
+import { useTranslations } from "next-intl";
+import ButtonLink from "./ButtonLink";
 import {
   Navigation,
   Pagination,
@@ -19,15 +24,6 @@ import {
   A11y,
   Controller,
 } from "swiper/modules";
-import { AnimatePresence, motion } from "framer-motion";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import type { Swiper as SwiperType } from "swiper";
-import { useTranslations } from "next-intl";
-import ButtonLink from "./ButtonLink";
-
-interface UseDataSelectProps {
-  data: ProductType[];
-}
 
 const HeroSection: React.FC = () => {
   const {
@@ -35,21 +31,14 @@ const HeroSection: React.FC = () => {
     loading: heroLoading,
     error: heroError,
   } = useDataTable<HeroSectionType>("HeroSection");
-
-  const { data: productsData } = useDataSelect<UseDataSelectProps>("products");
+  const { data: productsData } = useDataSelect<ProductType>("products");
   const locale = useSelector((state: RootState) => state.locale.value);
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
   const t = useTranslations("HeroSection");
   if (heroLoading)
     return (
-      <Shimmer
-        count={1}
-        width="w-[80%]"
-        height="h-96"
-        rounded="rounded"
-        backGroundColor="bg-neutral-300"
-      />
+      <Shimmer className="h-[600px] md:h-[650px] w-full md my-4 rounded" />
     );
   if (heroError) return <p>Error: {String(error)}</p>;
 
@@ -96,6 +85,7 @@ const HeroSection: React.FC = () => {
                 <Image
                   width={1920}
                   height={1080}
+                  quality={100}
                   src={item.image || "/fallback.jpg"}
                   alt={item.title.en}
                   className="w-full h-full object-cover rounded-2xl"
@@ -134,7 +124,7 @@ const HeroSection: React.FC = () => {
               {/* Product Cards Swiper - Positioned on top */}
               <div className=" z-20 w-56 md:w-72">
                 <AnimatePresence mode="wait">
-                  {productsData[0]?.data?.map(
+                  {productsData?.map(
                     (item, index) =>
                       index === activeIndex && (
                         <motion.div
@@ -168,18 +158,18 @@ const HeroSection: React.FC = () => {
         ))}
       </Swiper>
 
-      <div className="absolute  bottom-2 px-[38px] gap-5 left-5 right-5 flex items-center justify-center z-10">
+      <div className="absolute  bottom-1 px-[38px] gap-10 left-5 right-5 flex items-center justify-center z-10">
         {/* Left  Buttons */}
         <button
           onClick={() => swiperRef.current?.slidePrev()}
           className=" p-3 rounded-full transition-all duration-300 hover:scale-110 group"
           aria-label="Previous slide"
         >
-          <FaChevronLeft className="text-white text-2xl group-hover:text-neutral-300 transition-colors" />
+          <FaChevronLeft className="text-white text-3xl group-hover:text-neutral-300 transition-colors rtl:rotate-180" />
         </button>
         {/* Custom Pagination */}
         <div className="  backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-          <span className="font-semibold text-lg text-white">
+          <span className="font-semibold text-xl text-white">
             {activeIndex + 1} / {heroData?.length || 0}
           </span>
         </div>
@@ -189,7 +179,7 @@ const HeroSection: React.FC = () => {
           className=" p-3 rounded-full transition-all duration-300 hover:scale-110 group"
           aria-label="Next slide"
         >
-          <FaChevronRight className="text-white text-2xl group-hover:text-neutral-300 transition-colors" />
+          <FaChevronRight className="text-white text-3xl group-hover:text-neutral-300 transition-colors rtl:rotate-180" />
         </button>
       </div>
       <div className="w-[95%] m-auto h-px bg-neutral-300 relative bottom-16 z-10"></div>
