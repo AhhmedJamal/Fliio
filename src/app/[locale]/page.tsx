@@ -7,7 +7,7 @@ import Categories from "@/components/ui/Categories";
 
 export default function HomePage() {
   return (
-    <div className="main-page">
+    <div className="main-page mb-72">
       <HeroSection />
       <Categories />
     </div>

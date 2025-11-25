@@ -80,7 +80,7 @@ const NavMenu = () => {
             );
           })
         ) : (
-          <Shimmer />
+          <Shimmer count={5} className="h-5 w-20 rounded" />
         )}
       </ul>
     </nav>

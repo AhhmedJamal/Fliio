@@ -1,3 +1,5 @@
+import { Key } from "react";
+
 interface ShimmerProps {
   count?: number;
   width?: string;
@@ -8,23 +10,22 @@ interface ShimmerProps {
 }
 
 const Shimmer = ({
-  count = 4,
-  width = "w-24",
-  height = "h-5",
-  rounded = "rounded",
+  count = 1,
   className = "",
-  backGroundColor = "bg-neutral-600",
+  backGroundColor = "bg-neutral-300",
 }: ShimmerProps) => {
   return (
-    <div className={`flex gap-4 ${className}`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <span
-          key={i}
-          className={`relative overflow-hidden block mx-auto ${width} ${height} ${rounded} ${backGroundColor} `}
-        >
-          <span className="shimmer-bar" />
-        </span>
-      ))}
+    <div className="flex gap-4 container  mx-auto justify-center items-center">
+      {Array.from({ length: count }).map(
+        (_: unknown, i: Key | null | undefined) => (
+          <span
+            key={i}
+            className={`relative overflow-hidden block ${className} ${backGroundColor} `}
+          >
+            <span className="shimmer-bar" />
+          </span>
+        )
+      )}
     </div>
   );
 };
