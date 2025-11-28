@@ -46,7 +46,7 @@ const NavMenu = () => {
   }, [isMenuOpen]);
 
   return (
-    <nav className="container mx-auto py-4 w-fit ">
+    <nav className="container mx-auto py-4 w-fit hidden md:block">
       <ul className="flex gap-x-4 gap-y-1 justify-between flex-wrap ">
         {!loading ? (
           navLinks.map((link) => {

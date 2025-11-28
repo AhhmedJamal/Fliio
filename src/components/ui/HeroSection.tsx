@@ -38,12 +38,12 @@ const HeroSection: React.FC = () => {
   const t = useTranslations("HeroSection");
   if (heroLoading)
     return (
-      <Shimmer className="h-[600px] md:h-[650px] w-full md my-4 rounded" />
+      <Shimmer className="h-[600px] md:h-[650px] w-full md my-4 mx-2 rounded-2xl" />
     );
   if (heroError) return <p>Error: {String(error)}</p>;
 
   return (
-    <div className="Hero-section max-w-280 md:container mx-auto my-4 text-center relative h-[600px] md:h-[650px]">
+    <div className="Hero-section max-w-280 md:container md:mx-auto my-4 mx-3 text-center relative h-screen md:h-[650px]">
       {/* Main Hero Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
@@ -92,14 +92,14 @@ const HeroSection: React.FC = () => {
                 />
               </motion.div>
             )}
-            <div className="absolute pt-12 px-9 inset-0 h-[90%] rounded-2xl flex justify-between flex-row ">
+            <div className="absolute md:pt-12 px-2 md:px-9 flex-col gap-0 pt-5 inset-0 h-screen md:h-[90%] rounded-2xl flex justify-between md:flex-row items-end md:items-center">
               <motion.div
                 key={
                   idx === activeIndex
                     ? `content-active-${item.id}`
                     : `content-${item.id}`
                 }
-                className="flex flex-col items-start gap-12 max-w-1/3 overflow-hidden"
+                className="flex flex-col items-start md:gap-12 w-full md:max-w-1/3 max-w-[unset] gap-3 h-[30%] md:h-full overflow-hidden"
               >
                 <motion.p
                   initial={{ x: -150, opacity: 0 }}
@@ -113,7 +113,7 @@ const HeroSection: React.FC = () => {
                   initial={{ y: -150, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 1, ease: "backOut", delay: 0.2 }}
-                  className="text-white text-4xl md:text-5xl font-bold text-left"
+                  className="text-white text-3xl md:text-4xl lg:text-5xl font-bold text-left line-clamp-3"
                 >
                   {item.title[locale]}
                 </motion.h2>
@@ -122,14 +122,14 @@ const HeroSection: React.FC = () => {
                 </ButtonLink>
               </motion.div>
               {/* Product Cards Swiper - Positioned on top */}
-              <div className=" z-20 w-56 md:w-72">
+              <div className=" z-20 w-56 md:w-80 h-[70%] md:h-full">
                 <AnimatePresence mode="wait">
                   {productsData?.map(
                     (item, index) =>
                       index === activeIndex && (
                         <motion.div
                           key={item.id}
-                          initial={{ y: 100, opacity: 0 }}
+                          initial={{ y: 100, opacity: 0, scale: 0.9 }}
                           animate={{
                             y: [100, 0, -8, 0, -5, 0, -8, 0],
                             opacity: 1,
@@ -158,7 +158,7 @@ const HeroSection: React.FC = () => {
         ))}
       </Swiper>
 
-      <div className="absolute  bottom-1 px-[38px] gap-10 left-5 right-5 flex items-center justify-center z-10">
+      <div className="absolute bottom-1 px-[38px] gap-10 w-full flex items-center justify-center z-10">
         {/* Left  Buttons */}
         <button
           onClick={() => swiperRef.current?.slidePrev()}
