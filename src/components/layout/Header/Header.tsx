@@ -81,7 +81,6 @@ const Header = () => {
               size={23}
               className="hover:cursor-pointer hover:scale-110 transition-transform duration-200 hidden md:block"
             />
-
             <Select value={locale} onValueChange={handleLanguageChange}>
               <SelectTrigger
                 className="w-[45px] border-none h-7 ml-1 text-xl md:text-base"
