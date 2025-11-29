@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "files.catbox.moe",
       },
+      {
+        protocol: "https",
+        hostname: "hyper-nexvo.myshopify.com",
+      },
     ],
   },
 };

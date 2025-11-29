@@ -22,7 +22,7 @@ const ButtonLink = ({
         is_dark ? "bg-primary text-white" : "bg-white text-primary"
       } rounded-full btn-border  ${
         styles || ""
-      }  transition hover:scale-95`}
+      }  transition hover:scale-95 whitespace-nowrap`}
     >
       {children}
     </Link>

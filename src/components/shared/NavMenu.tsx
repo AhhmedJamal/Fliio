@@ -67,7 +67,7 @@ const NavMenu = () => {
                 </div>
 
                 {/* dropdown */}
-                <div className="absolute z-10 left-0 top-[150px] p-4 w-full h-fit bg-white text-black shadow-md rounded overflow-hidden opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-non">
+                <div className="absolute z-10 left-0 top-[150px] p-4 w-full h-fit bg-white text-black shadow-md rounded overflow-hidden opacity-0 translate-y-4 invisible group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out pointer-events-non">
                   {Component ? (
                     <Component />
                   ) : (
@@ -80,7 +80,11 @@ const NavMenu = () => {
             );
           })
         ) : (
-          <Shimmer count={5} className="h-5 w-20 rounded" />
+          <Shimmer
+            count={5}
+            className="h-5 w-20 rounded "
+            backGroundColor="bg-neutral-600"
+          />
         )}
       </ul>
     </nav>
