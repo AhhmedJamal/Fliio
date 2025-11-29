@@ -60,7 +60,7 @@ const HeroSection: React.FC = () => {
             {item.mediaType === "video" ? (
               <motion.video
                 key={`video-${item.id}`}
-                initial={{ scale: 1.3 }}
+                initial={{ scale: 1 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 1.1, opacity: 0 }}
                 transition={{ duration: 1, ease: "backIn" }}
@@ -122,14 +122,14 @@ const HeroSection: React.FC = () => {
                 </ButtonLink>
               </motion.div>
               {/* Product Cards Swiper - Positioned on top */}
-              <div className=" z-20 w-56 md:w-80 h-[70%] md:h-full">
+              <div className=" z-20 w-56 md:w-80 h-[70%] mb-5 md:h-full">
                 <AnimatePresence mode="wait">
                   {productsData?.map(
                     (item, index) =>
                       index === activeIndex && (
                         <motion.div
                           key={item.id}
-                          initial={{ y: 100, opacity: 0, scale: 0.9 }}
+                          initial={{ y: 100, opacity: 0}}
                           animate={{
                             y: [100, 0, -8, 0, -5, 0, -8, 0],
                             opacity: 1,
@@ -158,7 +158,7 @@ const HeroSection: React.FC = () => {
         ))}
       </Swiper>
 
-      <div className="absolute bottom-1 px-[38px] gap-10 w-full flex items-center justify-center z-10">
+      <div className="absolute bottom-1 gap-10 w-full flex items-center justify-center z-10">
         {/* Left  Buttons */}
         <button
           onClick={() => swiperRef.current?.slidePrev()}

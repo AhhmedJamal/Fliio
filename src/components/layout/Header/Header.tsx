@@ -58,7 +58,7 @@ const Header = () => {
           <div className="logo">
             <h1 className={`${audiowide.className} text-5xl `}>Fliio</h1>
           </div>
-          <div className="hidden lg:flex input-search bg-background text-(--text) border h-10 w-[50%] rounded-full  rtl:flex-row-reverse items-center px-4 justify-between">
+          <div className="hidden md:flex input-search bg-background text-(--text) border h-10 w-[50%] rounded-full  rtl:flex-row-reverse items-center px-4 justify-between">
             <input
               className="focus:outline-none placeholder:text-[12px] text-[12px] w-full ltr:text-left rtl:text-right "
               placeholder={t("inputSearch")}
@@ -105,12 +105,12 @@ const Header = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            <TbMenu4 size={40} />
+            <TbMenu4 size={40}  className="md:hidden"/>
           </div>
         </div>
         <div className="input-search bg-background text-(--text) border h-10 w-full mt-3 rounded-full flex md:hidden rtl:flex-row-reverse items-center px-4 justify-between">
           <input
-            className="focus:outline-none placeholder:text-[12px] text-[12px] w-full ltr:text-left rtl:text-right "
+            className="focus:outline-none placeholder:text-[12px] text-sm w-full ltr:text-left rtl:text-right "
             placeholder={t("inputSearch")}
             type="search"
             onChange={(e) => setIsValue(e.target.value)}
@@ -118,7 +118,7 @@ const Header = () => {
               console.log("kye: " + isValue);
             }}
           />
-          <FiSearch size={20} />
+          <FiSearch size={22}/>
         </div>
         <NavMenu />
       </header>

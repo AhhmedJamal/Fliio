@@ -67,7 +67,7 @@ const NavMenu = () => {
                 </div>
 
                 {/* dropdown */}
-                <div className="absolute z-10 left-0 top-[150px] p-4 w-full h-[300px] bg-white text-black shadow-md rounded overflow-hidden opacity-0 -translate-y-2.5 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out pointer-events-none">
+                <div className="absolute z-10 left-0 top-[150px] p-4 w-full h-fit bg-white text-black shadow-md rounded overflow-hidden opacity-0 translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-non">
                   {Component ? (
                     <Component />
                   ) : (
