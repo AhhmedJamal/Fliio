@@ -1,9 +1,9 @@
 "use client";
 import "@/styles/HeroSection.css";
 import Image from "next/image";
-import ProductCard from "../products/ProductCard";
+import ProductCard from "../../shared/ProductCard";
 import error from "next/error";
-import Shimmer from "./Shemmier";
+import Shimmer from "../../ui/Shemmier";
 import { useState, useRef } from "react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -16,7 +16,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import type { Swiper as SwiperType } from "swiper";
 import { useTranslations } from "next-intl";
-import ButtonLink from "./ButtonLink";
+import ButtonLink from "../../ui/ButtonLink";
 import {
   Navigation,
   Pagination,
@@ -129,7 +129,7 @@ const HeroSection: React.FC = () => {
                       index === activeIndex && (
                         <motion.div
                           key={item.id}
-                          initial={{ y: 100, opacity: 0}}
+                          initial={{ y: 100, opacity: 0 }}
                           animate={{
                             y: [100, 0, -8, 0, -5, 0, -8, 0],
                             opacity: 1,

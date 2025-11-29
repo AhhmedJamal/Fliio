@@ -35,8 +35,7 @@ export function useFilters<T>({
           query = query.lte(columnName, minMax.max);
         }
         const { data: result, error: fetchError } = await query;
-        console.log(result);
-
+  
         if (fetchError) {
           throw fetchError;
         }

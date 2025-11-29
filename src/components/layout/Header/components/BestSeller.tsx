@@ -1,12 +1,10 @@
 "use client";
-import ProductCard from "@/components/products/ProductCard";
+import ProductCard from "@/components/shared/ProductCard";
 import useFilters from "@/hooks/useFilters";
 import { ProductType } from "@/types/product";
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { AnimatePresence, motion } from "framer-motion";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import {
   A11y,
   Autoplay,
@@ -15,37 +13,24 @@ import {
   Pagination,
   Scrollbar,
 } from "swiper/modules";
+import ButtonArrow from "@/components/ui/ButtonArrow";
 
 const BestSeller = () => {
   const { data, loading, error } = useFilters<ProductType>({
     columnName: "reviewsCount",
     minMax: { min: 120 },
   });
+  const [isBeginning, setIsBeginning] = useState<boolean>(true);
+  const [isEnd, setIsEnd] = useState<boolean>(false);
   const swiperRef = useRef<SwiperType | null>(null);
-  useEffect(() => {
-    console.log(data);
-  }, []);
+
   return (
-    <div className="flex items-center">
-      {/* Left  Buttons */}
-      <motion.button
-        whileHover={{
-          scale: 1.1,
-          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
-          x: [0, 0, -20, 10, 10],
-          y: [10, -20, 0, -20, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        onClick={() => swiperRef.current?.slidePrev()}
-        className=" p-3 rounded-full transition-all duration-300 hover:scale-110 bg-primary z-10"
-        aria-label="Previous slide"
-      >
-        <FaChevronLeft className="text-white text-2xl  transition-colors " />
-      </motion.button>
+    <ButtonArrow
+      swiperRef={swiperRef}
+      isChildren={true}
+      isBeginning={isBeginning}
+      isEnd={isEnd}
+    >
       <Swiper
         modules={[
           Navigation,
@@ -61,15 +46,20 @@ const BestSeller = () => {
           1280: { slidesPerView: 5 },
           1536: { slidesPerView: 6 },
         }}
-        spaceBetween={8}
+        spaceBetween={10}
+        loop={false}
         speed={700}
-        onSwiper={(swiper) => {
-          swiperRef.current = swiper;
-        }}
         autoplay={{
           delay: 2500,
           disableOnInteraction: true,
           pauseOnMouseEnter: true,
+        }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        onSlideChange={(swiper) => {
+          setIsBeginning(swiper.isBeginning);
+          setIsEnd(swiper.isEnd);
         }}
       >
         {data.map((product, index) => {
@@ -80,26 +70,7 @@ const BestSeller = () => {
           );
         })}
       </Swiper>
-      {/* Right Navigation*/}
-      <motion.button
-        whileHover={{
-          scale: 1.1,
-          boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
-          x: [0, 0, -20, 10, 10],
-          y: [10, -20, 0, -20, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        onClick={() => swiperRef.current?.slideNext()}
-        className=" p-3 rounded-full transition-all duration-300 hover:scale-110 bg-primary z-10"
-        aria-label="Next slide"
-      >
-        <FaChevronRight className="text-white text-2xl  transition-colors" />
-      </motion.button>
-    </div>
+    </ButtonArrow>
   );
 };
 

@@ -12,11 +12,11 @@ import { TbMenu4 } from "react-icons/tb";
 import { FiSearch } from "react-icons/fi";
 import { Audiowide } from "next/font/google";
 import { FaRegUser } from "react-icons/fa";
-import SlideTextTop from "@/components/ui/SlideTextTop";
+import SlideTextTop from "@/components/shared/SlideTextTop";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import NavMenu from "./NavMenu";
+import NavMenu from "../../shared/NavMenu";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 const audiowide = Audiowide({

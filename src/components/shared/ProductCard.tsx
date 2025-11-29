@@ -141,7 +141,6 @@ const ProductCard = (props: ProductCardProps) => {
           alt={product.name[locale] || "Product Image"}
           width={100}
           height={100}
-          quality={50}
           className={`w-full h-auto mb-2  rounded transition-all duration-300 ${
             isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
           }`}
@@ -151,12 +150,11 @@ const ProductCard = (props: ProductCardProps) => {
       <div className="image-gallery flex gap-2 my-2 w-full">
         {displayImages.map((imgUrl, index) => (
           <Image
+            width={100}
+            height={100}
             key={index}
             src={imgUrl}
             alt={`${product.name[locale]} Image ${index + 1}`}
-            width={50}
-            height={50}
-            quality={30}
             className={`w-1/5 object-cover rounded cursor-pointer transition-all duration-200 hover:opacity-75 hover:scale-105 ring ${
               selectedImage === imgUrl
                 ? "ring-neutral-500 scale-105"
@@ -184,5 +182,3 @@ const ProductCard = (props: ProductCardProps) => {
 };
 
 export default ProductCard;
-
-
