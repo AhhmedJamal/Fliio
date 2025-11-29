@@ -48,3 +48,15 @@ export interface ProductType {
   createdAt?: string | Date;
   updatedAt?: string | Date;
 }
+
+export type UseProductsParams = {
+  type?: string;
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  colors?: string[]; // contains
+  page?: number; // 1-based
+  limit?: number;
+  orderBy?: keyof ProductType | string;
+  order?: "asc" | "desc";
+};
