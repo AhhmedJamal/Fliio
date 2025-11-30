@@ -4,11 +4,14 @@ import { supabase } from "@/lib/config";
 
 type useDataError = string | null;
 const memoryCache: Record<string, unknown[]> = {};
-export function useDataSelect<T>(tableName: string) {
+export function useDataSelect<T>(
+  tableName: string,
+  nameColumn: string,
+  skuArray: string[]
+) {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<useDataError>(null);
-
   useEffect(() => {
     if (!tableName) return;
 
@@ -19,7 +22,7 @@ export function useDataSelect<T>(tableName: string) {
         return;
       }
 
-      const cached = localStorage.getItem(`table-${tableName}`);
+      const cached = localStorage.getItem(`table-${tableName}-select`);
       if (cached) {
         try {
           const parsed = JSON.parse(cached);
@@ -32,22 +35,30 @@ export function useDataSelect<T>(tableName: string) {
         } catch (e) {
           console.error("Error parsing cached data:", e);
           if (typeof window !== "undefined") {
-            localStorage.removeItem(`table-${tableName}`);
+            localStorage.removeItem(`table-${tableName}-select`);
           }
         }
       }
       try {
         setLoading(true);
         setError(null);
+
         const { data, error } = await supabase
           .from(tableName)
           .select("*")
-          .range(0, 2);
+          .in(nameColumn, skuArray);
+
         if (error) throw error;
         if (data) {
-          memoryCache[tableName] = data;
-          localStorage.setItem(`table-${tableName}`, JSON.stringify(data));
-          setData(data as T[]);
+          const sortedData = skuArray
+            .map((sku) => data.find((product) => product.sku === sku))
+            .filter(Boolean) as T[];
+          memoryCache[tableName] = sortedData;
+          localStorage.setItem(
+            `table-${tableName}-select`,
+            JSON.stringify(sortedData)
+          );
+          setData(sortedData);
         }
       } catch (err: unknown) {
         if (err instanceof Error) setError(err.message);
@@ -57,7 +68,7 @@ export function useDataSelect<T>(tableName: string) {
     };
 
     fetchData();
-  }, [tableName]);
+  }, [nameColumn, skuArray, tableName]);
 
   const refresh = async () => {
     memoryCache[tableName] = [];

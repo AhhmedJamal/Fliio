@@ -1,5 +1,4 @@
 import { Key } from "react";
-
 interface ShimmerProps {
   count?: number;
   width?: string;
