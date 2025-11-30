@@ -4,7 +4,7 @@ import Image from "next/image";
 import ProductCard from "../../shared/ProductCard";
 import error from "next/error";
 import Shimmer from "../../ui/Shemmier";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { ProductType } from "@/types/product";
@@ -31,7 +31,20 @@ const HeroSection: React.FC = () => {
     loading: heroLoading,
     error: heroError,
   } = useDataTable<HeroSectionType>("HeroSection");
-  const { data: productsData } = useDataSelect<ProductType>("products");
+
+  const sortedHeroData = useMemo(() => {
+    if (!heroData) return [];
+    return [...heroData].sort((a, b) => a.id - b.id);
+  }, [heroData]);
+  const skuArray = useMemo(
+    () => sortedHeroData?.map((item) => item.selectProduct) || [],
+    [sortedHeroData]
+  );
+  const { data: productsData } = useDataSelect<ProductType>(
+    "products",
+    "sku",
+    skuArray
+  );
   const locale = useSelector((state: RootState) => state.locale.value);
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
@@ -43,7 +56,7 @@ const HeroSection: React.FC = () => {
   if (heroError) return <p>Error: {String(error)}</p>;
 
   return (
-    <div className="Hero-section max-w-280 md:container md:mx-auto my-4 mx-3 text-center relative h-screen md:h-[650px]">
+    <div className="Hero-section max-w-280 md:container md:mx-auto my-4 mx-3 text-center relative h-[70vh] md:h-[650px]">
       {/* Main Hero Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Controller]}
@@ -55,7 +68,7 @@ const HeroSection: React.FC = () => {
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         className="h-full rounded-2xl"
       >
-        {heroData?.map((item, idx) => (
+        {sortedHeroData?.map((item, idx) => (
           <SwiperSlide key={item.id} className="relative h-full">
             {item.mediaType === "video" ? (
               <motion.video
@@ -122,7 +135,7 @@ const HeroSection: React.FC = () => {
                 </ButtonLink>
               </motion.div>
               {/* Product Cards Swiper - Positioned on top */}
-              <div className=" z-20 w-56 md:w-80 h-[70%] mb-5 md:h-full">
+              <div className="hidden md:block z-20 w-56 md:w-80 h-[70%] mb-5 md:h-full">
                 <AnimatePresence mode="wait">
                   {productsData?.map(
                     (item, index) =>

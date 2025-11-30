@@ -12,4 +12,5 @@ export interface HeroSectionType  {
   mediaType: MediaType;
   image?: string;
   video?: string;
+  selectProduct: string;
 }

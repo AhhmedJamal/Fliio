@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import HeroSection from "@/components/pages/home/HeroSection";
 import Categories from "@/components/pages/home/Categories";
 import ImageSquare from "@/components/pages/home/ImageSquare";
+import ImageWithText from "@/components/pages/home/ImageWithText";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <HeroSection />
       <Categories />
       <ImageSquare />
+      <ImageWithText />
     </div>
   );
 }

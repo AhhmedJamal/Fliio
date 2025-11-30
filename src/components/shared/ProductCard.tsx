@@ -141,7 +141,9 @@ const ProductCard = (props: ProductCardProps) => {
           alt={product.name[locale] || "Product Image"}
           width={100}
           height={100}
-          className={`w-full h-auto mb-2  rounded transition-all duration-300 ${
+          quality={50}
+          priority={true}
+          className={`w-full h-[290px] object-cover mb-2  rounded transition-all duration-300 ${
             isTransitioning ? "opacity-0 scale-95" : "opacity-100 scale-100"
           }`}
         />
@@ -152,6 +154,8 @@ const ProductCard = (props: ProductCardProps) => {
           <Image
             width={100}
             height={100}
+            quality={30}
+            priority={true}
             key={index}
             src={imgUrl}
             alt={`${product.name[locale]} Image ${index + 1}`}
